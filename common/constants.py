@@ -78,13 +78,14 @@ SERVICE_DEPENDENCIES = {
     "backtester": ["feature_service", "strategy_brains", "risk_manager"],
     "monitoring": [],
     "api_gateway": ["brain_council", "execution_engine", "monitoring"],
-    "ui": ["api_gateway"],
+    "ui": [],
 }
 
 SERVICE_STARTUP_ORDER = [
+    "ui",
     "data_ingest", "data_feeds", "feature_service", "intelligence", "ml_models",
     "strategy_brains", "risk_manager", "brain_council", "execution_engine",
-    "backtester", "monitoring", "api_gateway", "ui"
+    "backtester", "monitoring", "api_gateway"
 ]
 
 DATA_INGEST_METRICS_PREFIX = "data_ingest"
