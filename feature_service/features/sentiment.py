@@ -513,7 +513,17 @@ class SentimentFeatures(BaseFeature):
             
         except Exception as e:
             logger.error(f"Error generating simulated sentiment data: {str(e)}")
-            return []
+            return [{
+                'timestamp': start_time,
+                'compound': 0.0,
+                'positive': 0.0,
+                'negative': 0.0,
+                'neutral': 1.0,
+                'text': '',
+                'entities': [],
+                'reliability': self.sources_reliability.get(source, 0.7),
+                'source': source,
+            }]
     
     def _generate_synthetic_text(self, symbol: str, sentiment: float) -> str:
         """

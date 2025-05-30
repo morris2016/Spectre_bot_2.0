@@ -120,9 +120,15 @@ class OrderFlowBrain(StrategyBrain):
         self.params = {**self.DEFAULT_PARAMS, **kwargs}
 
         # Configure feature providers
-        self.order_flow_features = OrderFlowFeatures(config, asset_id)
-        self.volume_profile_features = VolumeProfileFeatures(config, asset_id)
-        self.order_book_features = OrderBookFeatures(config, asset_id)
+        self.order_flow_features = OrderFlowFeatures()
+        if VolumeProfileFeatures:
+            self.volume_profile_features = VolumeProfileFeatures(config, asset_id)
+        else:
+            self.volume_profile_features = None
+        if OrderBookFeatures:
+            self.order_book_features = OrderBookFeatures(config, asset_id)
+        else:
+            self.order_book_features = None
 
         # Microstructure analyzer for loophole detection
         self.microstructure = MicrostructureAnalyzer(config, asset_id)
