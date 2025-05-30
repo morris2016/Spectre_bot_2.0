@@ -1,0 +1,331 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.order-panel {
+    height: 100%;
+    width: 100%;
+    
+    &__container {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 16px;
+        background-color: rgba(18, 24, 38, 0.95) !important;
+        border: 1px solid rgba(82, 94, 128, 0.15);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
+        
+        @include glassmorphism;
+        
+        .MuiDivider-root {
+            background-color: rgba(255, 255, 255, 0.12);
+        }
+        
+        .MuiTypography-root {
+            color: $text-primary;
+        }
+        
+        .MuiInputBase-root {
+            color: $text-primary;
+        }
+        
+        .MuiOutlinedInput-root {
+            border-color: rgba(255, 255, 255, 0.23);
+        }
+        
+        .MuiChip-root {
+            background-color: rgba(255, 255, 255, 0.08);
+            
+            &.MuiChip-colorPrimary {
+                background-color: rgba($primary-color, 0.2);
+                color: lighten($primary-color, 20%);
+            }
+            
+            &.MuiChip-colorSecondary {
+                background-color: rgba($secondary-color, 0.2);
+                color: lighten($secondary-color, 20%);
+            }
+        }
+        
+        .MuiSlider-root {
+            color: $primary-color;
+            
+            .MuiSlider-thumb {
+                box-shadow: 0 0 0 2px rgba($primary-color, 0.3);
+                
+                &:hover, &.Mui-focusVisible {
+                    box-shadow: 0 0 0 4px rgba($primary-color, 0.2);
+                }
+            }
+            
+            .MuiSlider-valueLabel {
+                background-color: $primary-color;
+            }
+            
+            .MuiSlider-mark {
+                background-color: rgba(255, 255, 255, 0.3);
+                
+                &.MuiSlider-markActive {
+                    background-color: $primary-color;
+                }
+            }
+        }
+    }
+    
+    &__header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 16px;
+        
+        .order-panel__title {
+            flex-grow: 1;
+            font-weight: 500;
+            color: $text-primary;
+            margin-left: 8px;
+        }
+        
+        .platform-badge {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+            
+            &:hover {
+                transform: scale(1.1);
+            }
+            
+            .platform-icon {
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 600;
+                font-size: 16px;
+                
+                &.binance {
+                    background-color: #F0B90B;
+                    color: #000;
+                }
+                
+                &.deriv {
+                    background-color: #FF444F;
+                    color: #fff;
+                }
+            }
+        }
+    }
+    
+    &__divider {
+        margin: 12px 0;
+    }
+    
+    &__market-info {
+        margin: 12px 0;
+        
+        .price-value {
+            font-weight: bold;
+            color: $text-primary;
+        }
+        
+        .bid-value {
+            color: $positive-color;
+        }
+        
+        .ask-value {
+            color: $negative-color;
+        }
+    }
+    
+    &__position-info {
+        margin: 12px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
+        .position-profit {
+            .profit {
+                color: $positive-color;
+            }
+            
+            .loss {
+                color: $negative-color;
+            }
+        }
+    }
+    
+    &__brain-signals {
+        margin: 16px 0;
+        padding: 12px;
+        border-radius: 8px;
+        background-color: rgba(25, 33, 52, 0.5);
+        
+        .signal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .signal-gauge {
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin: 8px 0 12px;
+            overflow: hidden;
+            
+            &__bar {
+                height: 100%;
+                border-radius: 3px;
+                transition: width 0.3s ease, background-color 0.3s ease;
+            }
+        }
+        
+        .brain-timeline {
+            margin-top: 16px;
+            padding: 0;
+            
+            .MuiTimelineItem-missingOppositeContent:before {
+                display: none;
+            }
+            
+            .MuiTimelineContent-root {
+                padding: 4px 8px;
+            }
+            
+            .MuiTimelineDot-root {
+                margin: 0;
+            }
+            
+            .MuiTypography-body2 {
+                font-size: 0.8rem;
+            }
+            
+            .MuiTypography-caption {
+                font-size: 0.7rem;
+                color: $text-secondary;
+            }
+        }
+    }
+    
+    &__risk-manager {
+        margin: 16px 0;
+        padding: 12px;
+        border-radius: 8px;
+        background-color: rgba(25, 33, 52, 0.5);
+        
+        .MuiFormControlLabel-root {
+            margin-top: 8px;
+            margin-right: 0;
+            margin-left: 0;
+            justify-content: flex-end;
+            width: 100%;
+        }
+    }
+    
+    &__form {
+        margin: 16px 0;
+    }
+    
+    &__action-buttons {
+        margin: 16px 0;
+        
+        .buy-button {
+            background-color: $positive-color;
+            
+            &:hover {
+                background-color: darken($positive-color, 10%);
+            }
+        }
+        
+        .sell-button {
+            background-color: $negative-color;
+            
+            &:hover {
+                background-color: darken($negative-color, 10%);
+            }
+        }
+        
+        .quick-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+        }
+    }
+    
+    &__recent-orders {
+        margin: 16px 0;
+        max-height: 150px;
+        overflow-y: auto;
+        
+        .recent-orders-list {
+            .recent-order-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 4px 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                
+                &:last-child {
+                    border-bottom: none;
+                }
+                
+                .order-side {
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+                    width: 20%;
+                    font-size: 0.8rem;
+                }
+                
+                .order-info {
+                    width: 50%;
+                    text-align: center;
+                    font-size: 0.8rem;
+                }
+                
+                .order-time {
+                    width: 30%;
+                    text-align: right;
+                    font-size: 0.7rem;
+                    color: $text-secondary;
+                }
+            }
+        }
+    }
+    
+    &__visualizer {
+        margin-top: auto;
+        padding-top: 16px;
+        
+        .order-book-chart {
+            height: 120px;
+        }
+    }
+}
+
+// Responsive styles
+@media (max-width: 960px) {
+    .order-panel {
+        &__brain-signals {
+            .brain-timeline {
+                display: none;
+            }
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .order-panel {
+        &__recent-orders {
+            display: none;
+        }
+        
+        &__visualizer {
+            display: none;
+        }
+    }
+}

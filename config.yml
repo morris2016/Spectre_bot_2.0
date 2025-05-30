@@ -1,0 +1,188 @@
+schema_version: 1
+environment: production
+
+system:
+  name: QuantumSpectre Elite
+  version: 1.0.0
+  log_level: INFO
+  auto_migrate: true
+  debug_mode: false
+
+paths:
+  config: ~/.quantumspectre/config.yml
+  data_dir: ~/.quantumspectre/data
+  log_dir: ~/.quantumspectre/logs
+  model_dir: ~/.quantumspectre/models
+
+services:
+  enabled:
+    - data_ingest
+    - data_feeds
+    - feature_service
+    - intelligence
+    - ml_models
+    - strategy_brains
+    - brain_council
+    - execution_engine
+    - risk_manager
+    - backtester
+    - monitoring
+    - api_gateway
+    - ui
+  
+  # Service-specific configurations
+  feature_service:
+    enabled: true
+    required: true
+    startup_timeout: 120
+    shutdown_timeout: 60
+    auto_restart: true
+    max_restart_attempts: 3
+    restart_delay: 5
+    health_check_interval: 30
+    max_health_failures: 3
+    critical: false
+
+database:
+  enabled: false
+  host: localhost
+  port: 5432
+  user: postgres
+  password: ""
+  dbname: quantumspectre
+  database: quantumspectre
+  min_pool_size: 2
+  max_pool_size: 20
+  connection_timeout: 60
+  command_timeout: 60
+  use_memory_storage: true
+
+api:
+  rate_limit:
+    default: 100
+    trading: 20
+    auth: 10
+
+http:
+  timeout_default: 10
+  timeout_feed: 30
+  timeout_long: 120
+  retries: 3
+  backoff: 2.0
+
+websocket:
+  max_connections: 10000
+  ping_interval: 30
+  ping_timeout: 10
+  close_timeout: 5
+
+auth:
+  token_expiry_access: 3600
+  token_expiry_refresh: 2592000
+  password_min_length: 10
+  hash_algorithm: pbkdf2_sha256
+  salt_length: 32
+  hash_iterations: 200000
+
+cache:
+  default_ttl: 300
+  long_ttl: 3600
+  very_long_ttl: 86400
+  
+redis:
+  host: localhost
+  port: 6379
+  db: 0
+  password: ""
+  ssl: false
+  timeout: 10
+
+resources:
+  thread_pool_size: 10
+  max_thread_pool_size: 100
+  process_pool_size: 4
+  max_process_pool_size: 16
+  memory_warning_threshold: 0.85
+  memory_critical_threshold: 0.95
+  
+security:
+  key_file: ~/.quantumspectre/keys/master.key
+  cert_file: ~/.quantumspectre/keys/cert.pem
+  encryption_algorithm: AES-256-GCM
+  hash_algorithm: SHA-256
+  salt_length: 32
+  iterations: 100000
+
+logging:
+  level: INFO
+  ui_level: info
+
+ui:
+  theme: dark
+  chart_type: candlestick
+  default_timeframe: 1h
+  default_exchange: binance
+  default_layout: trading_focus
+  auto_refresh_interval: 5
+  sound_alerts: true
+  voice_assistant: true
+  hotkeys_enabled: false
+  confirm_orders: true
+  host: "0.0.0.0"
+  port: 3002
+  static_dir: "./ui/dist"
+  index_file: "index.html"
+
+feature_service:
+  cross_asset_features: true
+  max_workers: 8
+  batch_size: 1024
+  use_gpu: false
+  rate_limit: 100
+  cache_refresh_interval: 60
+  cache_cleanup_interval: 300
+  cache_expiry_seconds: 300
+  redis_cache_expiry: 300
+  order_flow_cache_expiry: 60
+  stats_update_interval: 600
+  health_check_interval: 300
+  lookback_periods: 500
+  timeframes: ["1m", "5m", "15m", "1h", "4h", "1d"]
+  startup_timeout: 120
+
+data_ingest:
+  processors:
+    market_data:
+      enabled: true
+      batch_size: 1000
+      max_queue_size: 10000
+    news_data:
+      enabled: true
+      batch_size: 100
+      max_queue_size: 1000
+  sources:
+    enabled: true
+    polling_interval: 60
+    
+data_feeds:
+  binance:
+    enabled: true
+    api_key: ""
+    api_secret: ""
+    testnet: true
+    symbols: ["BTCUSDT", "ETHUSDT", "BNBUSDT"]
+    timeframes: ["1m", "5m", "15m", "1h", "4h", "1d"]
+    max_candles: 1000
+    rate_limit: 1200
+  deriv:
+    enabled: false
+    app_id: ""
+    api_token: ""
+    
+backtesting:
+  data_source: "database"
+  csv_directory: "./backtester/data"
+  default_timeframe: "1h"
+  default_start_date: "2023-01-01"
+  default_end_date: "2023-12-31"
+  report_directory: "./backtester/reports"

@@ -1,0 +1,4 @@
+ml_models:
+  optimize: true
+  optimize_method: bayesian
+  optimize_trials: 20

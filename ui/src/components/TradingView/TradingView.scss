@@ -1,0 +1,466 @@
+// TradingView component advanced styles
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.trading-view-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--chart-bg);
+  border-radius: $border-radius-large;
+  overflow: hidden;
+  box-shadow: $shadow-medium;
+  transition: all 0.3s ease;
+  
+  // Ensure chart container fills available space
+  &, .trading-view-chart {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+  }
+  
+  // Toolbar for chart controls
+  .trading-view-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-sm;
+    background: var(--toolbar-bg);
+    border-bottom: 1px solid var(--border-color);
+    height: 40px;
+    
+    // Timeframe selector container
+    .timeframe-selector {
+      display: flex;
+      align-items: center;
+      gap: $spacing-xs;
+      
+      .timeframe-btn {
+        @include button-reset;
+        
+        padding: 4px 8px;
+        border-radius: $border-radius-sm;
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--text-secondary);
+        background: transparent;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        
+        &:hover {
+          background: var(--btn-hover-bg);
+          color: var(--text-primary);
+        }
+        
+        &.active {
+          background: var(--primary-color);
+          color: var(--text-on-primary);
+        }
+      }
+    }
+    
+    // Drawing tools container
+    .drawing-tools {
+      display: flex;
+      align-items: center;
+      gap: $spacing-xs;
+      
+      .tool-btn {
+        @include button-reset;
+        
+        width: 28px;
+        height: 28px;
+        border-radius: $border-radius-sm;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        color: var(--icon-color);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        
+        &:hover {
+          background: var(--btn-hover-bg);
+          color: var(--text-primary);
+        }
+        
+        &.active {
+          background: var(--primary-color);
+          color: var(--text-on-primary);
+        }
+        
+        &.cancel {
+          background: var(--danger-color);
+          color: var(--text-on-danger);
+        }
+        
+        i {
+          font-size: 16px;
+          line-height: 1;
+        }
+      }
+    }
+  }
+  
+  // Main chart container
+  .trading-view-chart {
+    flex: 1;
+    position: relative;
+  }
+  
+  // Hover data (OHLC info)
+  .hover-data {
+    position: absolute;
+    top: 50px;
+    left: 10px;
+    background: var(--hover-bg);
+    border-radius: $border-radius-sm;
+    padding: $spacing-xs $spacing-sm;
+    backdrop-filter: blur(10px);
+    box-shadow: $shadow-soft;
+    z-index: 10;
+    
+    .price-data {
+      display: flex;
+      align-items: center;
+      gap: $spacing-xs;
+      font-size: 12px;
+      
+      .label {
+        color: var(--text-secondary);
+        font-weight: 500;
+      }
+      
+      .value {
+        color: var(--text-primary);
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+// Signal indicator component styles
+.signal-indicator {
+  position: absolute;
+  z-index: 20;
+  padding: $spacing-sm;
+  
+  &.bottom-right {
+    bottom: 20px;
+    right: 20px;
+  }
+  
+  &.bottom-left {
+    bottom: 20px;
+    left: 20px;
+  }
+  
+  &.top-right {
+    top: 60px;
+    right: 20px;
+  }
+  
+  .signal-item {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    background: var(--hover-bg);
+    border-radius: $border-radius-sm;
+    padding: $spacing-xs $spacing-sm;
+    margin-bottom: $spacing-xs;
+    backdrop-filter: blur(10px);
+    box-shadow: $shadow-soft;
+    max-width: 300px;
+    
+    &.buy {
+      border-left: 3px solid $color-success;
+    }
+    
+    &.sell {
+      border-left: 3px solid $color-danger;
+    }
+    
+    .signal-icon {
+      font-size: 16px;
+      
+      &.buy {
+        color: $color-success;
+      }
+      
+      &.sell {
+        color: $color-danger;
+      }
+    }
+    
+    .signal-content {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      
+      .signal-title {
+        font-weight: 600;
+        font-size: 13px;
+        color: var(--text-primary);
+      }
+      
+      .signal-details {
+        font-size: 11px;
+        color: var(--text-secondary);
+      }
+      
+      .confidence-bar {
+        height: 4px;
+        background: var(--bg-muted);
+        border-radius: 2px;
+        margin-top: $spacing-xs;
+        overflow: hidden;
+        
+        .confidence-level {
+          height: 100%;
+          
+          &.buy {
+            background: $color-success;
+          }
+          
+          &.sell {
+            background: $color-danger;
+          }
+        }
+      }
+    }
+    
+    .signal-time {
+      font-size: 10px;
+      color: var(--text-tertiary);
+      white-space: nowrap;
+    }
+  }
+}
+
+// Pattern overlay component styles
+.pattern-overlay {
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  width: 250px;
+  max-height: 300px;
+  overflow-y: auto;
+  background: var(--hover-bg);
+  border-radius: $border-radius-md;
+  backdrop-filter: blur(10px);
+  box-shadow: $shadow-soft;
+  z-index: 15;
+  padding: $spacing-sm;
+  
+  .pattern-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: $spacing-sm;
+    padding-bottom: $spacing-xs;
+    border-bottom: 1px solid var(--border-color);
+    
+    .pattern-title {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text-primary);
+    }
+    
+    .pattern-close {
+      @include button-reset;
+      color: var(--text-secondary);
+      font-size: 16px;
+      cursor: pointer;
+      
+      &:hover {
+        color: var(--danger-color);
+      }
+    }
+  }
+  
+  .pattern-list {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+    
+    .pattern-item {
+      display: flex;
+      align-items: flex-start;
+      gap: $spacing-xs;
+      font-size: 12px;
+      
+      .pattern-icon {
+        font-size: 16px;
+        margin-top: 1px;
+        
+        &.bullish {
+          color: $color-success;
+        }
+        
+        &.bearish {
+          color: $color-danger;
+        }
+      }
+      
+      .pattern-info {
+        flex: 1;
+        
+        .pattern-name {
+          font-weight: 500;
+          color: var(--text-primary);
+        }
+        
+        .pattern-desc {
+          font-size: 11px;
+          color: var(--text-secondary);
+        }
+        
+        .pattern-strength {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          margin-top: 2px;
+          
+          .strength-text {
+            font-size: 10px;
+            color: var(--text-tertiary);
+          }
+          
+          .strength-dots {
+            display: flex;
+            gap: 2px;
+            
+            .dot {
+              width: 4px;
+              height: 4px;
+              border-radius: 50%;
+              background: var(--bg-muted);
+              
+              &.active {
+                &.bullish {
+                  background: $color-success;
+                }
+                
+                &.bearish {
+                  background: $color-danger;
+                }
+              }
+            }
+          }
+        }
+      }
+      
+      .pattern-time {
+        font-size: 10px;
+        color: var(--text-tertiary);
+        white-space: nowrap;
+      }
+    }
+  }
+  
+  .pattern-empty {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    text-align: center;
+    padding: $spacing-sm 0;
+  }
+}
+
+// Define light and dark theme variables
+:root {
+  // Light theme (default)
+  --chart-bg: #ffffff;
+  --toolbar-bg: #f5f7fa;
+  --hover-bg: rgba(255, 255, 255, 0.8);
+  --text-primary: #2c3e50;
+  --text-secondary: #6c757d;
+  --text-tertiary: #8c98a4;
+  --border-color: #e9ecef;
+  --icon-color: #6c757d;
+  --btn-hover-bg: #e9ecef;
+  --bg-muted: #dee2e6;
+  
+  // Other colors remain the same in both themes
+  --primary-color: #3f51b5;
+  --danger-color: #f44336;
+  --text-on-primary: #ffffff;
+  --text-on-danger: #ffffff;
+}
+
+// Dark theme styles
+.theme-dark {
+  .trading-view-container {
+    --chart-bg: #1a1d21;
+    --toolbar-bg: #242830;
+    --hover-bg: rgba(36, 40, 48, 0.8);
+    --text-primary: #e9ecef;
+    --text-secondary: #adb5bd;
+    --text-tertiary: #6c757d;
+    --border-color: #343a40;
+    --icon-color: #adb5bd;
+    --btn-hover-bg: #343a40;
+    --bg-muted: #343a40;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: $breakpoint-md) {
+  .trading-view-container {
+    .trading-view-toolbar {
+      flex-wrap: wrap;
+      height: auto;
+      
+      .timeframe-selector {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        width: 100%;
+        margin-bottom: $spacing-xs;
+      }
+      
+      .drawing-tools {
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
+    
+    .pattern-overlay {
+      width: 200px;
+      right: 10px;
+      top: 50px;
+    }
+    
+    .signal-indicator {
+      &.bottom-right, &.bottom-left, &.top-right {
+        bottom: 10px;
+        right: 10px;
+        left: auto;
+        top: auto;
+      }
+      
+      .signal-item {
+        max-width: 250px;
+      }
+    }
+  }
+}
+
+// Animation keyframes for signals and patterns
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+// Apply animations
+.signal-item, .pattern-item {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.signal-item.new, .pattern-item.new {
+  animation: pulse 1s ease-out infinite;
+}

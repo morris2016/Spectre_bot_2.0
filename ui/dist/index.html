@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QuantumSpectre Elite</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background-color: #1e1e1e;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+      text-align: center;
+    }
+    h1 {
+      color: #4caf50;
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+    p {
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .button {
+      display: inline-block;
+      background-color: #4caf50;
+      color: white;
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: 4px;
+      font-size: 16px;
+      margin: 10px;
+    }
+    .button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>QuantumSpectre Elite Trading System</h1>
+    <p>Welcome to the QuantumSpectre Elite Trading System. Use the links below to configure and manage your system.</p>
+    
+    <a href="/database-config.html" class="button">Database Configuration</a>
+    
+    <div id="root"></div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if user is logged in
+      const token = localStorage.getItem('token');
+      if (!token) {
+        // Redirect to login page
+        window.location.href = '/login.html';
+      }
+    });
+  </script>
+</body>
+</html>

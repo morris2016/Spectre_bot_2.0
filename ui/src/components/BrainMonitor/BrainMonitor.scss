@@ -1,0 +1,388 @@
+/**
+ * BrainMonitor.scss
+ * 
+ * Styles for the Brain Monitor component that visualizes strategy brain activity,
+ * neural networks, and decision processes.
+ */
+
+.brain-monitor-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 700px;
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  
+  .brain-monitor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    background-color: var(--bg-panel);
+    border-bottom: 1px solid var(--border-color);
+    
+    .brain-monitor-title {
+      display: flex;
+      align-items: center;
+      
+      .brain-icon {
+        font-size: 1.5rem;
+        margin-right: 12px;
+        color: var(--primary-color);
+      }
+    }
+    
+    .brain-monitor-asset-info {
+      display: flex;
+      align-items: center;
+      
+      .brain-monitor-controls {
+        display: flex;
+        align-items: center;
+        margin-left: 16px;
+        
+        .settings-button, .view-mode-button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: var(--bg-panel-hover);
+          border: 1px solid var(--border-color);
+          color: var(--text-secondary);
+          border-radius: 4px;
+          padding: 6px 12px;
+          margin-left: 8px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          
+          &:hover {
+            background-color: var(--bg-hover);
+            color: var(--text-primary);
+          }
+          
+          &.active {
+            background-color: var(--primary-color);
+            color: var(--text-on-primary);
+            border-color: var(--primary-color);
+          }
+        }
+      }
+    }
+  }
+  
+  .brain-settings-panel {
+    background-color: var(--bg-panel);
+    border-radius: 6px;
+    margin: 16px 24px;
+    padding: 16px 24px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
+    
+    .settings-title {
+      margin-bottom: 16px;
+      color: var(--text-primary);
+      font-weight: 600;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 8px;
+    }
+    
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+      
+      .setting-item {
+        padding: 8px 0;
+      }
+    }
+    
+    .settings-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-color);
+      
+      button {
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        
+        &.settings-cancel {
+          background-color: transparent;
+          color: var(--text-secondary);
+          border: 1px solid var(--border-color);
+          margin-right: 12px;
+          
+          &:hover {
+            background-color: var(--bg-panel-hover);
+            color: var(--text-primary);
+          }
+        }
+        
+        &.settings-apply {
+          background-color: var(--primary-color);
+          color: var(--text-on-primary);
+          border: 1px solid var(--primary-color);
+          
+          &:hover {
+            background-color: var(--primary-color-dark);
+          }
+        }
+      }
+    }
+  }
+  
+  .brain-monitor-tabs {
+    background-color: var(--bg-panel);
+    border-bottom: 1px solid var(--border-color);
+    
+    .MuiTab-root {
+      text-transform: none;
+      min-width: 120px;
+      
+      .MuiTab-wrapper {
+        flex-direction: row;
+        
+        svg {
+          margin-right: 8px;
+          margin-bottom: 0;
+        }
+      }
+    }
+    
+    .MuiTabs-indicator {
+      background-color: var(--primary-color);
+      height: 3px;
+    }
+  }
+  
+  .brain-monitor-content {
+    flex: 1;
+    padding: 16px 24px;
+    overflow-y: auto;
+    
+    .MuiPaper-root {
+      background-color: var(--bg-panel);
+      border-radius: 8px;
+      padding: 16px;
+      height: 100%;
+    }
+    
+    // Brain Activity Tab
+    .brain-activity-tab {
+      .confidence-panel {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        
+        .brain-metrics {
+          margin-top: 16px;
+          
+          .brain-metric-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            
+            .metric-name {
+              flex: 1;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              margin-right: 12px;
+              color: var(--text-secondary);
+              font-size: 0.9rem;
+            }
+            
+            .metric-value {
+              width: 60%;
+              display: flex;
+              align-items: center;
+              
+              .confidence-bar {
+                height: 8px;
+                border-radius: 4px;
+                margin-right: 8px;
+                flex: 1;
+              }
+              
+              span {
+                width: 50px;
+                text-align: right;
+                font-size: 0.9rem;
+                font-weight: 500;
+                color: var(--text-primary);
+              }
+            }
+          }
+        }
+      }
+      
+      .brain-activity-visual {
+        .activity-icon {
+          margin-right: 8px;
+          color: var(--primary-color);
+        }
+        
+        .brain-3d-container {
+          height: 400px;
+          width: 100%;
+          position: relative;
+          
+          canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+          }
+        }
+      }
+    }
+    
+    // Decision Process Tab
+    .decision-process-tab {
+      .decision-process-container {
+        height: 100%;
+      }
+    }
+    
+    // Neural Network Tab
+    .neural-network-tab {
+      .neural-network-container {
+        height: 100%;
+        min-height: 600px;
+        
+        .no-data-message {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
+          min-height: 400px;
+          color: var(--text-secondary);
+        }
+      }
+    }
+    
+    // Strategy Details Tab
+    .strategy-details-tab {
+      .strategy-details-card {
+        .strategy-code {
+          margin-top: 16px;
+          border-radius: 8px;
+          max-height: 400px;
+          overflow-y: auto;
+        }
+      }
+    }
+  }
+
+  // Loading state
+  .brain-monitor-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+    width: 100%;
+    
+    .MuiCircularProgress-root {
+      color: var(--primary-color);
+    }
+  }
+  
+  // Error state
+  .brain-monitor-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+    width: 100%;
+  }
+}
+
+// Theme-specific variables
+:root {
+  // Light theme
+  --primary-color: #2196f3;
+  --primary-color-dark: #1976d2;
+  --bg-secondary: #f5f5f5;
+  --bg-panel: #ffffff;
+  --bg-panel-hover: #f0f0f0;
+  --bg-hover: #e0e0e0;
+  --text-primary: #212121;
+  --text-secondary: #757575;
+  --text-on-primary: #ffffff;
+  --border-color: #e0e0e0;
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+// Dark theme
+.dark-theme {
+  --primary-color: #2196f3;
+  --primary-color-dark: #1976d2;
+  --bg-secondary: #121212;
+  --bg-panel: #1e1e1e;
+  --bg-panel-hover: #2a2a2a;
+  --bg-hover: #333333;
+  --text-primary: #e0e0e0;
+  --text-secondary: #b0b0b0;
+  --text-on-primary: #ffffff;
+  --border-color: #333333;
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+}
+
+// Responsive adjustments
+@media (max-width: 960px) {
+  .brain-monitor-container {
+    .brain-monitor-header {
+      flex-direction: column;
+      align-items: flex-start;
+      
+      .brain-monitor-asset-info {
+        width: 100%;
+        margin-top: 12px;
+        justify-content: space-between;
+      }
+    }
+    
+    .settings-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .brain-monitor-container {
+    .brain-monitor-header {
+      .brain-monitor-asset-info {
+        flex-direction: column;
+        align-items: flex-start;
+        
+        .brain-monitor-controls {
+          margin-left: 0;
+          margin-top: 8px;
+          width: 100%;
+          justify-content: space-between;
+          
+          button {
+            flex: 1;
+            margin: 0 4px;
+            
+            &:first-child {
+              margin-left: 0;
+            }
+            
+            &:last-child {
+              margin-right: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}

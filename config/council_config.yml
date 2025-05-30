@@ -1,0 +1,92 @@
+# QuantumSpectre Elite Trading System
+# Enhanced Brain Council Configuration
+
+# Asset-specific council configuration
+asset_council:
+  # Voting system configuration
+  voting_system:
+    confidence_threshold: 0.65
+    agreement_threshold: 0.7
+    min_voters_required: 2
+    primary_method: "weighted_confidence"
+    secondary_method: "conviction_vote"
+    tie_breaking_method: "highest_confidence"
+    use_conviction_weighting: true
+    use_historical_accuracy: true
+    use_confidence_boosting: true
+    conflict_resolution_strategy: "weighted_average"
+    history_max_size: 1000
+  
+  # Timeframe weights (higher timeframes have more weight)
+  timeframe_weights:
+    "1m": 0.5
+    "5m": 0.6
+    "15m": 0.7
+    "30m": 0.8
+    "1h": 1.0
+    "4h": 1.2
+    "1d": 1.5
+  
+  # Source weights
+  ml_weight: 1.2  # Weight for ML model signals
+  brain_weight: 1.0  # Weight for strategy brain signals
+  
+  # Signal history
+  max_signal_history: 100
+
+# ML council configuration
+ml_council:
+  # Voting system configuration
+  voting_system:
+    confidence_threshold: 0.6
+    agreement_threshold: 0.65
+    min_voters_required: 2
+    primary_method: "weighted_confidence"
+    secondary_method: "bayesian_vote"
+    tie_breaking_method: "highest_confidence"
+    use_conviction_weighting: true
+    use_historical_accuracy: true
+    use_confidence_boosting: true
+    conflict_resolution_strategy: "weighted_average"
+    history_max_size: 500
+  
+  # Model type weights
+  model_type_weights:
+    classification: 1.0
+    regression: 0.9
+    time_series: 1.1
+    deep_learning: 1.2
+    reinforcement_learning: 1.3
+    ensemble: 1.4
+
+# Council manager configuration
+council_manager:
+  # Voting system configuration for master decisions
+  voting_system:
+    confidence_threshold: 0.7
+    agreement_threshold: 0.75
+    min_voters_required: 2
+    primary_method: "weighted_confidence"
+    secondary_method: "conviction_vote"
+    tie_breaking_method: "highest_confidence"
+    use_conviction_weighting: true
+    use_historical_accuracy: true
+    use_confidence_boosting: true
+    conflict_resolution_strategy: "weighted_average"
+    history_max_size: 1000
+  
+  # Council weights for master decisions
+  council_weights:
+    asset_council: 1.0
+    ml_council: 0.8
+    regime_council: 0.7
+    timeframe_council: 0.6
+  
+  # Assets to monitor (if empty, will use default from data_feeds config)
+  assets:
+    - "BTCUSDT"
+    - "ETHUSDT"
+    - "BNBUSDT"
+    - "ADAUSDT"
+    - "SOLUSDT"
+    - "XRPUSDT"

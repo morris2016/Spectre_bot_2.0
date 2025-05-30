@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuantumSpectre Elite - Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background-color: #1e1e1e;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    h1 {
+      color: #4caf50;
+      margin-top: 0;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #444;
+      border-radius: 4px;
+      background-color: #2a2a2a;
+      color: #e0e0e0;
+      font-size: 16px;
+    }
+    button {
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .status {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 4px;
+      text-align: center;
+    }
+    .error {
+      background-color: rgba(244, 67, 54, 0.2);
+      color: #f44336;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>QuantumSpectre Elite</h1>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <button type="submit">Login</button>
+    </form>
+    <div id="statusError" class="status error hidden">
+      Invalid username or password.
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // For demo purposes, create a default admin user
+      if (!localStorage.getItem('demo_user_created')) {
+        // Create a demo user in Redis (this is just for the UI demo)
+        fetch('/token', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: 'username=admin&password=admin'
+        })
+        .then(response => {
+          if (response.ok) {
+            localStorage.setItem('demo_user_created', 'true');
+          }
+        })
+        .catch(error => {
+          console.error('Error creating demo user:', error);
+        });
+      }
+
+      // Handle form submission
+      document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        
+        // For demo purposes, hardcode admin credentials
+        if (username === 'admin' && password === 'admin') {
+          // Store token in localStorage
+          localStorage.setItem('token', 'demo_token');
+          
+          // Redirect to index page
+          window.location.href = '/';
+          return;
+        }
+        
+        fetch('/token', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
+        })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error('Invalid credentials');
+          }
+        })
+        .then(data => {
+          // Store token in localStorage
+          localStorage.setItem('token', data.access_token);
+          
+          // Redirect to index page
+          window.location.href = '/';
+        })
+        .catch(error => {
+          console.error('Login error:', error);
+          document.getElementById('statusError').classList.remove('hidden');
+        });
+      });
+    });
+  </script>
+</body>
+</html>
