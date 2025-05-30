@@ -108,12 +108,13 @@ class ServiceManager:
         self.health_check_tasks = {}
         self.shutdown_in_progress = False
 
-    async def start_services(self):
+    async def start_services(self, skip_services=None):
         """
         Start all system services in the correct dependency order.
         Respects service dependencies to ensure proper initialization.
         """
         global services
+        skip_services = set(skip_services or [])
         self.logger.info("Starting QuantumSpectre Elite services...")
 
         # First, instantiate all service objects lazily using importlib
@@ -138,6 +139,8 @@ class ServiceManager:
 
         # Create service instances but don't start them yet
         for name, service_class in service_classes.items():
+            if name in self.services:
+                continue
             self.logger.info(f"Instantiating {name} service")
             try:
                 # Get the parameters that the service class accepts
@@ -178,6 +181,8 @@ class ServiceManager:
 
         # Start services in dependency order
         for service_name in SERVICE_STARTUP_ORDER:
+            if service_name in skip_services:
+                continue
             if service_name in self.services:
                 await self._start_service_with_dependencies(service_name)
 
@@ -776,15 +781,26 @@ async def startup():
         else:
             logger.info("Running on Windows - signal handlers not supported, using KeyboardInterrupt handling")
 
-        # Start all services
-        logger.info("Starting all services...")
-        try:
-            await service_manager.start_services()
-            logger.info(f"All services started successfully: {list(service_manager.services.keys())}")
-        except Exception as e:
-            logger.error(f"Failed to start services: {str(e)}")
-            logger.error(traceback.format_exc())
-            raise
+        registration_file = config.ui.get("registration_file", "registration_complete.flag")
+        if config.ui.get("wait_for_registration", False):
+            logger.info("Launching UI for initial registration")
+            skip_all_except_ui = [s for s in SERVICE_STARTUP_ORDER if s != "ui"]
+            await service_manager.start_services(skip_services=skip_all_except_ui)
+            while not os.path.exists(registration_file):
+                logger.info("Waiting for user registration...")
+                await asyncio.sleep(2)
+            logger.info("Registration completed. Continuing startup of remaining services.")
+            await service_manager.start_services(skip_services=["ui"])
+        else:
+            # Start all services normally
+            logger.info("Starting all services...")
+            try:
+                await service_manager.start_services()
+                logger.info(f"All services started successfully: {list(service_manager.services.keys())}")
+            except Exception as e:
+                logger.error(f"Failed to start services: {str(e)}")
+                logger.error(traceback.format_exc())
+                raise
 
         # Wait for shutdown signal
         await service_manager.shutdown_complete.wait()

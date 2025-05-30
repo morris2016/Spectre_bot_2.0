@@ -124,7 +124,9 @@ DEFAULT_CONFIG = {
         "ssl_cert": None,
         "ssl_key": None,
         "session_secret": None,
-        "session_timeout": 86400  # 24 hours
+        "session_timeout": 86400,  # 24 hours
+        "registration_file": "registration_complete.flag",
+        "wait_for_registration": True
     },
     "exchanges": DEFAULT_EXCHANGE_CONFIGS,
     "data_ingest": {

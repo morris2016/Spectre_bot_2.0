@@ -132,6 +132,8 @@ ui:
   port: 3002
   static_dir: "./ui/dist"
   index_file: "index.html"
+  registration_file: registration_complete.flag
+  wait_for_registration: true
 
 feature_service:
   cross_asset_features: true
